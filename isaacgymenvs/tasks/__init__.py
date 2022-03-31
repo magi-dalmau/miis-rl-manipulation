@@ -40,6 +40,8 @@ from tasks.ingenuity import Ingenuity
 from tasks.quadcopter import Quadcopter
 from tasks.shadow_hand import ShadowHand
 from tasks.trifinger import Trifinger
+from tasks.peg_in_hole import PegInHole
+from tasks.juggling import Juggling
 
 # Mappings from strings to environments
 isaacgym_task_map = {
@@ -56,4 +58,7 @@ isaacgym_task_map = {
     "Quadcopter": Quadcopter,
     "ShadowHand": ShadowHand,
     "Trifinger": Trifinger,
+    "PegInHole": PegInHole,
+    "Juggling": Juggling
+
 }

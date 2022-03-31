@@ -161,7 +161,7 @@ table_asset = gym.create_box(
     sim, table_dims.x, table_dims.y, table_dims.z, asset_options)
 
 # create hole asset
-hole_asset_height = 0.08
+hole_asset_height = 0.02
 hole_size = gymapi.Vec3(0.06, 0.06, hole_asset_height)
 external_size = gymapi.Vec3(0.2, 0.2, hole_asset_height)
 asset_options = gymapi.AssetOptions()
@@ -174,8 +174,8 @@ hole_part_b_asset = gym.create_box(
     sim, external_size.x, (external_size.y-hole_size.y)/2.0, hole_asset_height, asset_options)
 
 # create box asset
-box_thickness = 0.05
-box_height = 0.12
+box_thickness = 0.045
+box_height = box_thickness
 asset_options = gymapi.AssetOptions()
 box_asset = gym.create_box(
     sim, box_thickness, box_thickness, box_height, asset_options)
@@ -365,7 +365,7 @@ down_q = torch.stack(
 
 # box corner coords, used to determine grasping yaw
 box_half_size = 0.5 * box_thickness
-corner_coord = torch.Tensor([box_half_size, box_half_size, box_half_size])
+corner_coord = torch.Tensor([box_half_size, box_half_size, 0.5*box_height])
 corners = torch.stack(num_envs * [corner_coord]).to(device)
 
 # downard axis
@@ -432,7 +432,7 @@ while not gym.query_viewer_has_closed(viewer):
 
     # determine if we're holding the box (grippers are closed and box is near)
     gripper_sep = dof_pos[:, 7] + dof_pos[:, 8]
-    gripped = (gripper_sep < 0.045) & (
+    gripped = (gripper_sep < box_thickness) & (
         box_dist < grasp_offset + 0.5 * box_thickness)
 
     yaw_q = cube_grasping_yaw(box_rot, corners)
